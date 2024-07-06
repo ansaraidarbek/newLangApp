@@ -18,7 +18,7 @@ html {
 
 @media screen and (aspect-ratio < 1 /2 ) {
   html  {
-    font-size: 6vmin;
+    font-size: 1.7vh;
   }
 }
 
