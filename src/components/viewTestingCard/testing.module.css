@@ -1,0 +1,53 @@
+.bigNumbers {
+    font-size: 15rem;
+    margin : 0;
+    padding : 0;
+    vertical-align: middle;
+    line-height: 15rem;
+    position : relative;
+    top : -2rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.question {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 3rem 0;
+    align-items: center;
+    position: relative;
+}
+
+.question > h1 {
+    font-size : 3rem;
+    background-color: #006A4e;
+    border-radius: 20px;
+    width: 90%;
+    height: 30%;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.question > input {
+    width: 90%;
+    padding: 1rem;
+    font-size: 2rem;
+    border-radius: 10px;
+    border: none;
+}
+
+.question > button {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+}
+
+.ending > h3{
+    font-size: 4rem;
+    padding: 0;
+    margin: 0 0 2rem 0;
+}

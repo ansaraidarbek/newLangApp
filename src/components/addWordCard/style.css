@@ -1,0 +1,27 @@
+.mainWordAdd{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    align-items: center;
+}
+
+.mainWordAddLabel {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.mainWordAddInput {
+    width: 80%;
+    font-size: 2rem;
+    padding: 1rem;
+    border-radius: 10px;
+    border: none;
+}
+
+.mainWordAddButton {
+    position: absolute;
+    height: 3rem;
+    width: 80%;
+    bottom: 3rem;
+}
