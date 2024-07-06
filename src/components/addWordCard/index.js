@@ -1,7 +1,8 @@
 import './style.css';
 import { useRef } from 'react';
 
-const AddWordCard = ({updateData}) => {
+const AddWordCard = ({updateData, setStatus}) => {
+    console.log("words comming")
     const eng = useRef(null);
     const rus = useRef(null);
 
@@ -18,6 +19,8 @@ const AddWordCard = ({updateData}) => {
              */
             const wordTuple = {engWord : eng.current.value, rusWord : rus.current.value};
             updateData(wordTuple);
+        } else {
+            setStatus({isActive : true, msg : 'Слово не может быть добавленно поскольку, 1 или больше полей пустое', change : 'pressed'})
         }
         return;
     }

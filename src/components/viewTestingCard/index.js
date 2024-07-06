@@ -2,6 +2,7 @@ import { useState, useEffect, memo, useRef, useMemo} from 'react';
 import styles from "./testing.module.css";
 
 const ViewTestingCard = memo(({data, formatDate}) => {
+    console.log("test comming")
     const [time, setTime] = useState(3);
     const [isStarted, setIsStarted] = useState(false);
     const [status, setStatus] = useState({correct: 0, total:0});

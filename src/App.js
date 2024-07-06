@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import './App.css';
 import AddWordCard from './components/addWordCard';
 import ViewTestingCard from './components/viewTestingCard';
@@ -53,7 +53,7 @@ function App() {
     return;
   }
 
-  const formatDate = (date) => {
+  const formatDate = useCallback((date) => {
     var year = date.getFullYear();
   
     var month = (1 + date.getMonth()).toString();
@@ -63,7 +63,7 @@ function App() {
     day = day.length > 1 ? day : '0' + day;
     
     return month + '/' + day + '/' + year;
-  }
+  }, []);
 
   const getFormattedDate = () => {
     const date = new Date();
@@ -100,7 +100,7 @@ function App() {
       </div>
       <main>
         {state === 'none'? <h1>Добро пожаловать</h1> : null}
-        {state === 'pressed' ? <AddWordCard updateData={updateData}/> : null}
+        {state === 'pressed' ? <AddWordCard updateData={updateData} setStatus={setStatus}/> : null}
         {state === 'testing' ? <ViewTestingCard data={data} formatDate={formatDate}/> : null}
       </main>
     </div>
