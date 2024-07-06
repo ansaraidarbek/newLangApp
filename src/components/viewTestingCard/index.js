@@ -50,7 +50,7 @@ const ViewTestingCard = memo(({data, formatDate}) => {
         if (status.total < words.length) {
             return (<div className={styles.question}>
                 <h1>{words[status.total].engWord}</h1>
-                <input autoFocus ref={answer} placeholder="Ваш ответ"/>
+                <input autoFocus autoComplete="off" ref={answer} placeholder="Ваш ответ"/>
                 <button onClick={() => nextQuestion()}>Дальше</button>
             </div>)
         } else {

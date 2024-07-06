@@ -13,6 +13,13 @@
   color: white;
 }
 
+@media screen and (aspect-ratio < 1 /2 ) {
+  .App  {
+    background-color: blue;
+    font-size: 6vmin;
+  }
+}
+
 .buttons {
   display: flex;
   gap: 1.5rem;

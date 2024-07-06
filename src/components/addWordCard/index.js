@@ -24,9 +24,9 @@ const AddWordCard = ({updateData}) => {
     
     return (<div className='mainWordAdd'>
         <label className='mainWordAddLabel' htmlFor="eng">Вставьте английское слово</label>
-        <input ref={eng} className='mainWordAddInput' type="text" id="eng" name="eng" />
+        <input ref={eng} autoComplete="off" className='mainWordAddInput' type="text" id="eng" name="eng" />
         <label className='mainWordAddLabel' htmlFor="rus">Сюда русское пожалуйста </label>
-        <input ref={rus} className='mainWordAddInput' type="text" id="rus" name="rus" />
+        <input ref={rus} autoComplete="off" className='mainWordAddInput' type="text" id="rus" name="rus" />
         <button className='mainWordAddButton' onClick={() => addWord()} >Добавить</button>
     </div>)
 
