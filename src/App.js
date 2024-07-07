@@ -86,7 +86,7 @@ function App() {
     localStorage.setItem('englishWords', JSON.stringify(newData));
     firstMount.current = false;
     setData(newData);
-  }, [])
+  }, [data])
 
   const startTest = () => {
     if (checkState('testing')) {

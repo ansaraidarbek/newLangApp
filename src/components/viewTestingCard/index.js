@@ -39,6 +39,7 @@ const ViewTestingCard = memo(({data, formatDate, setState, main}) => {
     };
 
     const words= useMemo(() => findWords(), [data, formatDate]);
+    console.log(words);
     const answer = useRef(null);
 
     const nextQuestion = () => {
@@ -64,12 +65,24 @@ const ViewTestingCard = memo(({data, formatDate, setState, main}) => {
         return Math.min(size, limit);
     }
 
+    const checkWord = () => {
+        if (testStatus.total >= words.length || !answer.current) {
+            return;
+        }
+        if (answer.current.value === words[testStatus.total].engWord) {
+            answer.current.style.color = 'green';
+        } else {
+            answer.current.style.color = 'red';
+        }
+    }
+
     const startTest = () => {
         if (testStatus.total < words.length) {
             const size = getTextWidth(words[testStatus.total].rusWord);
             return (<div className={styles.question}>
                 <h1 className={styles.questionTitle} style={{fontSize:size+'px'}}>{words[testStatus.total].rusWord}</h1>
-                <input autoFocus autoComplete="off" ref={answer} placeholder="Ваш ответ"/>
+                <input autoFocus autoComplete="off" onChange = {() => checkWord()} ref={answer} placeholder="Ваш ответ"/>
+                <p>Правильно {testStatus.correct} из {words.length}</p>
                 <button onClick={() => nextQuestion()}>Дальше</button>
             </div>)
         } 
