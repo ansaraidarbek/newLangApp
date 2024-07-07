@@ -1,7 +1,7 @@
 import './style.css';
-import { useRef } from 'react';
+import { useRef, memo } from 'react';
 
-const AddWordCard = ({updateData, setStatus}) => {
+const AddWordCard = memo(({updateData, setStatus}) => {
     console.log("words comming")
     const eng = useRef(null);
     const rus = useRef(null);
@@ -33,6 +33,6 @@ const AddWordCard = ({updateData, setStatus}) => {
         <button className='mainWordAddButton' onClick={() => addWord()} >Добавить</button>
     </div>)
 
-}
+})
 
 export default AddWordCard;

@@ -2,9 +2,9 @@
   text-align: center;
 }
 
-html {
+/* html {
   font-size: calc(10px + 2vmin);
-}
+} */
 
 .App {
   background-color: #282c34;
@@ -14,13 +14,14 @@ html {
   align-items: center;
   justify-content: center;
   color: white;
+  font-size: calc(10px + 2vmin);
 }
 
-@media screen and (aspect-ratio < 1 /2 ) {
+/* @media screen and (aspect-ratio < 1 /2 ) {
   html  {
     font-size: 1.7vh;
   }
-}
+} */
 
 .buttons {
   display: flex;
@@ -43,4 +44,10 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.ending > h3{
+  font-size: 4rem;
+  padding: 0;
+  margin: 0 0 2rem 0;
 }

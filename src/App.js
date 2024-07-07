@@ -3,27 +3,32 @@ import './App.css';
 import AddWordCard from './components/addWordCard';
 import ViewTestingCard from './components/viewTestingCard';
 import Modal from './components/modalQuestioning';
+import checkIfNotConfirmed from './components/createHistory';
 
 function App() {
   const [state, setState] = useState('none');
   const [data, setData] = useState(JSON.parse(localStorage.getItem("englishWords")||'{}'));
+  const confirmed = useRef(JSON.parse(localStorage.getItem("confirmedEng")||'false'));
   const [status, setStatus] = useState({isActive : false, msg : null, change : null});
+  const testStatus = JSON.parse(localStorage.getItem("testStatus"))||{correct: 0, total:0};
   const firstMount = useRef(true);
+  const main = useRef(null);
 
   useEffect(() => {
-    // Обновляем заголовок документа с помощью API браузера
     if (!firstMount.current) {
       setStatus({isActive : true, msg : 'Успешно добавленно слово', change : 'none'});
-    }
+    } 
   }, [data]);
 
   useEffect(() => {
-    // Обновляем заголовок документа с помощью API браузера
     if (!status.isActive && status.change) {
       setState(status.change);
       setStatus(old => ({...old, change : null}))
     }
   }, [status]);
+
+  // for first use add 400 different words
+  checkIfNotConfirmed(confirmed, data, setData);
 
   // do something when user interferes current state
   const checkState = (opt) => {
@@ -70,7 +75,7 @@ function App() {
     return formatDate(date);
   }
 
-  const updateData = (wordTuple) => {
+  const updateData = useCallback((wordTuple) => {
     const currentDay = getFormattedDate();
     const newData = {...data};
     if (newData[currentDay]) {
@@ -81,12 +86,11 @@ function App() {
     localStorage.setItem('englishWords', JSON.stringify(newData));
     firstMount.current = false;
     setData(newData);
-  }
+  }, [])
 
   const startTest = () => {
     if (checkState('testing')) {
       setState('testing');
-      console.log('sdfg')
     }
     return;
   }
@@ -98,10 +102,20 @@ function App() {
         <button onClick={() => addWord()}> Добавить Слово </button>
         <button onClick={() => startTest()}> Начать подготовку </button>
       </div>
-      <main>
-        {state === 'none'? <h1>Добро пожаловать</h1> : null}
+      <main ref = {main}>
+        {state === 'none'? 
+          <>
+            <h1>Добро пожаловать</h1> 
+            <div className='ending'>
+              <p>Результаты последнего теста</p>
+              <h3>{testStatus.correct} / {testStatus.total}</h3>
+              <p>Количество правильных слов: {testStatus.correct}</p>
+              <p>Количество всех слов {testStatus.total}</p>
+            </div>
+          </>
+        : null}
         {state === 'pressed' ? <AddWordCard updateData={updateData} setStatus={setStatus}/> : null}
-        {state === 'testing' ? <ViewTestingCard data={data} formatDate={formatDate}/> : null}
+        {state === 'testing' ? <ViewTestingCard data={data} formatDate={formatDate} setState={setState} main={main}/> : null}
       </main>
     </div>
   );

@@ -1,11 +1,11 @@
 import { useState, useEffect, memo, useRef, useMemo} from 'react';
 import styles from "./testing.module.css";
 
-const ViewTestingCard = memo(({data, formatDate}) => {
-    console.log("test comming")
+const ViewTestingCard = memo(({data, formatDate, setState, main}) => {
+    console.log("testing")
     const [time, setTime] = useState(3);
     const [isStarted, setIsStarted] = useState(false);
-    const [status, setStatus] = useState({correct: 0, total:0});
+    const [testStatus, setTestStatus] = useState({correct: 0, total:0});
 
     const findDates = () => {
         const currentDate = new Date();
@@ -15,6 +15,13 @@ const ViewTestingCard = memo(({data, formatDate}) => {
         return [formatDate(currentDate), formatDate(minus3Days), formatDate(minus8Days), formatDate(minus20Days)]
     }
 
+    useEffect(() => {
+        if (isStarted && testStatus.total >= words.length) {
+            localStorage.setItem('testStatus', JSON.stringify(testStatus));
+            setState('none');
+        }
+    }, [testStatus, isStarted]);
+
     function shuffleArray(array) {
         for (var i = array.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
@@ -22,48 +29,51 @@ const ViewTestingCard = memo(({data, formatDate}) => {
             array[i] = array[j];
             array[j] = temp;
         }
+         return array;
     }
 
     const findWords = () => {
-        
         const dates = findDates();
         const currentWords = [].concat.apply([], dates.filter(date => data[date] !== undefined).map(el => data[el]));
-        console.log(currentWords);
-        shuffleArray(currentWords);
-        return currentWords;
-    }
+        return shuffleArray(currentWords);
+    };
 
-    const words= useMemo(() => findWords(), []);
+    const words= useMemo(() => findWords(), [data, formatDate]);
     const answer = useRef(null);
 
     const nextQuestion = () => {
-        const stats = {...status}
-        if (answer.current.value === words[status.total].rusWord) {
+        const stats = {...testStatus}
+        if (testStatus.total < words.length && answer.current.value === words[testStatus.total].engWord) {
             stats.correct++;
         } 
         stats.total++;
         answer.current.value = '';
         answer.current.focus();
-        setStatus(stats);
+        setTestStatus(stats);
+    }
+
+    function getTextWidth(text) {
+        if (!main.current) {
+            return 32;
+        }
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        context.font = getComputedStyle(document.body).font;
+        const size = (main.current.offsetWidth * 0.8 / context.measureText(text).width) * 16;
+        const limit = ((main.current.offsetWidth * 0.8) / (main.current.offsetWidth * 0.2) ) * 16;
+        return Math.min(size, limit);
     }
 
     const startTest = () => {
-        if (status.total < words.length) {
+        if (testStatus.total < words.length) {
+            const size = getTextWidth(words[testStatus.total].rusWord);
             return (<div className={styles.question}>
-                <h1>{words[status.total].engWord}</h1>
+                <h1 className={styles.questionTitle} style={{fontSize:size+'px'}}>{words[testStatus.total].rusWord}</h1>
                 <input autoFocus autoComplete="off" ref={answer} placeholder="Ваш ответ"/>
                 <button onClick={() => nextQuestion()}>Дальше</button>
             </div>)
-        } else {
-            return (
-                <div className={styles.ending}>
-                    <h1>Конец</h1>
-                    <h3>{status.correct} / {status.total}</h3>
-                    <p>Количество правильных слов: {status.correct}</p>
-                    <p>Количество всех слов {status.total}</p>
-                </div>
-            )
-        }
+        } 
+        return null;
     }
 
     useEffect(() => {

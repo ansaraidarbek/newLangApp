@@ -21,8 +21,9 @@
     position: relative;
 }
 
-.question > h1 {
-    font-size : 3rem;
+.questionTitle {
+    font-size : 107px;
+    font-family: 'Times New Roman';
     background-color: #006A4e;
     border-radius: 20px;
     width: 90%;
@@ -30,6 +31,8 @@
     display: flex;
     align-items:center;
     justify-content:center;
+    margin: 0;
+    padding: 0;
 }
 
 .question > input {
@@ -38,16 +41,11 @@
     font-size: 2rem;
     border-radius: 10px;
     border: none;
+    margin-top: 2rem;
 }
 
 .question > button {
     position: absolute;
     right: 1rem;
     bottom: 1rem;
-}
-
-.ending > h3{
-    font-size: 4rem;
-    padding: 0;
-    margin: 0 0 2rem 0;
 }
