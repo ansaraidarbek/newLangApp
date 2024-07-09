@@ -8,7 +8,7 @@ import checkIfNotConfirmed from './components/createHistory';
 function App() {
   const [state, setState] = useState('none');
   const [data, setData] = useState(JSON.parse(localStorage.getItem("englishWords")||'{}'));
-  const confirmed = useRef(JSON.parse(localStorage.getItem("confirmedEng")||'false'));
+  const confirmed = useRef(JSON.parse(localStorage.getItem("newConfirmedEng")||'false'));
   const [status, setStatus] = useState({isActive : false, msg : null, change : null});
   const testStatus = JSON.parse(localStorage.getItem("testStatus"))||{correct: 0, total:0};
   const firstMount = useRef(true);
