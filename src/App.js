@@ -3,7 +3,7 @@ import './App.css';
 import AddWordCard from './components/addWordCard';
 import ViewTestingCard from './components/viewTestingCard';
 import Modal from './components/modalQuestioning';
-import checkIfNotConfirmed from './components/createHistory';
+import InitiateApp from './components/simpleOperations'
 
 function App() {
   const [state, setState] = useState('none');
@@ -27,9 +27,6 @@ function App() {
     }
   }, [status]);
 
-  // for first use add 400 different words
-  checkIfNotConfirmed(confirmed, data, setData);
-
   // do something when user interferes current state
   const checkState = (opt) => {
     if (state !== 'none' && state !== opt) {
@@ -46,7 +43,8 @@ function App() {
 
   const addWord = () => {
     const currentDay = getFormattedDate();
-    if (data[currentDay] && data[currentDay].length === 20) {
+    const index = data.length - 1;
+    if (data[index].date === currentDay  && data[index].wordsDict.length === 20) {
       setStatus({isActive : true, msg : '20 слов предел, на сегодня достаточно!', change : state});
       // alert('20 слов предел, на сегодня достаточно!');
       return;
@@ -70,23 +68,29 @@ function App() {
     return month + '/' + day + '/' + year;
   }, []);
 
-  const getFormattedDate = () => {
+  const getFormattedDate = useCallback(() => {
+    console.log('new data');
     const date = new Date();
     return formatDate(date);
-  }
+  }, [formatDate]);
 
   const updateData = useCallback((wordTuple) => {
+    console.log('updateData');
     const currentDay = getFormattedDate();
-    const newData = {...data};
-    if (newData[currentDay]) {
-      newData[currentDay].push(wordTuple);
+    const newData = [...data];
+    const index = newData.length - 1;
+    if (newData[index].date === currentDay) {
+      newData[index].wordsDict.push(wordTuple);
     } else {
-      newData[currentDay] = [wordTuple];
+      newData.push({
+        wordsDict : [wordTuple],
+        date : currentDay
+      })
     }
     localStorage.setItem('englishWords', JSON.stringify(newData));
     firstMount.current = false;
     setData(newData);
-  }, [data])
+  }, [data, getFormattedDate])
 
   const startTest = () => {
     if (checkState('testing')) {
@@ -97,6 +101,7 @@ function App() {
 
   return (
     <div className="App">
+      <InitiateApp confirmed={confirmed} data={data} setData={setData}></InitiateApp>
       {status.isActive && <Modal setStatus={setStatus} status={status} />}
       <div className="buttons">
         <button onClick={() => addWord()}> Добавить Слово </button>

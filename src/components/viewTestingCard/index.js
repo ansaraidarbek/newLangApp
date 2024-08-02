@@ -7,20 +7,14 @@ const ViewTestingCard = memo(({data, formatDate, setState, main}) => {
     const [isStarted, setIsStarted] = useState(false);
     const [testStatus, setTestStatus] = useState({correct: 0, total:0});
 
-    const findDates = () => {
-        const currentDate = new Date();
-        const minus3Days = new Date(currentDate.getTime() - 3 * 24 * 60 * 60 * 1000);
-        const minus8Days = new Date(currentDate.getTime() - 8 * 24 * 60 * 60 * 1000);
-        const minus20Days = new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000);
-        return [formatDate(currentDate), formatDate(minus3Days), formatDate(minus8Days), formatDate(minus20Days)]
+    const findIndexes = (data) => {
+        const index = data.length - 1;
+        const index1 = index - 3;
+        const index2 = index - 8;
+        const index3 = index - 20;
+        const arr = [index, index1, index2, index3];
+        return arr.filter(el => el >= 0);
     }
-
-    useEffect(() => {
-        if (isStarted && testStatus.total >= words.length) {
-            localStorage.setItem('testStatus', JSON.stringify(testStatus));
-            setState('none');
-        }
-    }, [testStatus, isStarted]);
 
     function shuffleArray(array) {
         for (var i = array.length - 1; i > 0; i--) {
@@ -33,13 +27,21 @@ const ViewTestingCard = memo(({data, formatDate, setState, main}) => {
     }
 
     const findWords = () => {
-        const dates = findDates();
-        const currentWords = [].concat.apply([], dates.filter(date => data[date] !== undefined).map(el => data[el]));
+        const indexes = findIndexes(data);
+        const currentWords = [].concat.apply([], indexes.filter(index => data[index] !== undefined).map(el => data[el].wordsDict));
+        console.log(currentWords);
         return shuffleArray(currentWords);
     };
 
     const words= useMemo(() => findWords(), [data, formatDate]);
-    console.log(words);
+
+    useEffect(() => {
+        if (isStarted && testStatus.total >= words.length) {
+            localStorage.setItem('testStatus', JSON.stringify(testStatus));
+            setState('none');
+        }
+    }, [testStatus, isStarted, words.length]);
+
     const answer = useRef(null);
 
     const nextQuestion = () => {
