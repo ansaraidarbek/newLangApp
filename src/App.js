@@ -100,9 +100,13 @@ function App() {
   }
 
   const provideStatistics = () => {
+    const currentDay = getFormattedDate();
     return (<>
       <h5>Statistics of data length : {data.length}</h5>
-      <h5>Last elem : {JSON.stringify(data.length > 0 ? data[data.length - 1] : 'data is empty')}</h5>
+      <h5>Last elem : {JSON.stringify(data.length > 0 ? data[data.length - 1].wordsDict : 'data is empty')}</h5>
+      <h5>Last access date : {JSON.stringify(data.length > 0 ? data[data.length - 1].date : 'date is empty')}</h5>
+      <h5>Todays date : {JSON.stringify(currentDay)}</h5>
+      <h5>Current State : {state}</h5>
     </>)
   }
 
@@ -118,17 +122,17 @@ function App() {
         {state === 'none'? 
           <>
             {provideStatistics()}
-            <h1>Добро пожаловать</h1> 
+            {/* <h1>Добро пожаловать</h1> 
             <div className='ending'>
               <p>Результаты последнего теста</p>
               <h3>{testStatus.correct} / {testStatus.total}</h3>
               <p>Количество правильных слов: {testStatus.correct}</p>
               <p>Количество всех слов {testStatus.total}</p>
-            </div>
+            </div> */}
           </>
-        : null}
-        {state === 'pressed' ? <AddWordCard updateData={updateData} setStatus={setStatus}/> : null}
-        {state === 'testing' ? <ViewTestingCard data={data} formatDate={formatDate} setState={setState} main={main}/> : null}
+        : <> {provideStatistics()}</>}
+        {/* {state === 'pressed' ? <AddWordCard updateData={updateData} setStatus={setStatus}/> : null}
+        {state === 'testing' ? <ViewTestingCard data={data} formatDate={formatDate} setState={setState} main={main}/> : null} */}
       </main>
     </div>
   );
