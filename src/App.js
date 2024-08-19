@@ -7,7 +7,7 @@ import InitiateApp from './components/simpleOperations'
 
 function App() {
   const [state, setState] = useState('none');
-  const [data, setData] = useState(JSON.parse(localStorage.getItem("englishWords")||'{}'));
+  const [data, setData] = useState(JSON.parse(localStorage.getItem("englishWords")||'[]'));
   const confirmed = useRef(JSON.parse(localStorage.getItem("newConfirmedEng")||'false'));
   const [status, setStatus] = useState({isActive : false, msg : null, change : null});
   const testStatus = JSON.parse(localStorage.getItem("testStatus"))||{correct: 0, total:0};
@@ -99,6 +99,13 @@ function App() {
     return;
   }
 
+  const provideStatistics = () => {
+    return (<>
+      <h5>Statistics of data length : {data.length}</h5>
+      <h5>Last elem : {JSON.stringify(data.length > 0 ? data[data.length - 1] : 'data is empty')}</h5>
+    </>)
+  }
+
   return (
     <div className="App">
       <InitiateApp confirmed={confirmed} data={data} setData={setData}></InitiateApp>
@@ -110,6 +117,7 @@ function App() {
       <main ref = {main}>
         {state === 'none'? 
           <>
+            {provideStatistics()}
             <h1>Добро пожаловать</h1> 
             <div className='ending'>
               <p>Результаты последнего теста</p>

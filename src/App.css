@@ -46,6 +46,11 @@ main {
   justify-content: center;
 }
 
+h5 {
+  margin: 0;
+  padding: 0;
+}
+
 .ending > h3{
   font-size: 4rem;
   padding: 0;
