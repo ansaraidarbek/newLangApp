@@ -130,9 +130,9 @@ function App() {
               <p>Количество всех слов {testStatus.total}</p>
             </div> */}
           </>
-        : <> {provideStatistics()}</>}
-        {/* {state === 'pressed' ? <AddWordCard updateData={updateData} setStatus={setStatus}/> : null}
-        {state === 'testing' ? <ViewTestingCard data={data} formatDate={formatDate} setState={setState} main={main}/> : null} */}
+        : null}
+        {state === 'pressed' ? <AddWordCard updateData={updateData} setStatus={setStatus}/> : null}
+        {state === 'testing' ? <ViewTestingCard data={data} formatDate={formatDate} setState={setState} main={main}/> : null}
       </main>
     </div>
   );
