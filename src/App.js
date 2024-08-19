@@ -121,14 +121,14 @@ function App() {
       <main ref = {main}>
         {state === 'none'? 
           <>
-            {provideStatistics()}
-            {/* <h1>Добро пожаловать</h1> 
+            {/* {provideStatistics()} */}
+            <h1>Добро пожаловать</h1> 
             <div className='ending'>
               <p>Результаты последнего теста</p>
               <h3>{testStatus.correct} / {testStatus.total}</h3>
               <p>Количество правильных слов: {testStatus.correct}</p>
               <p>Количество всех слов {testStatus.total}</p>
-            </div> */}
+            </div>
           </>
         : null}
         {state === 'pressed' ? <AddWordCard updateData={updateData} setStatus={setStatus}/> : null}
