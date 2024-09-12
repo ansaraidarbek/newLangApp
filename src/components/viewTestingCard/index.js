@@ -82,10 +82,11 @@ const ViewTestingCard = memo(({data, formatDate, setState, main}) => {
         if (testStatus.total < words.length) {
             const size = getTextWidth(words[testStatus.total].rusWord);
             return (<div className={styles.question}>
-                <h1 className={styles.questionTitle} style={{fontSize:size+'px'}}>{words[testStatus.total].rusWord}</h1>
+                {/* <h1 className={styles.questionTitle} style={{fontSize:size+'px'}}>{words[testStatus.total].rusWord}</h1>
                 <input autoFocus autoComplete="off" onChange = {() => checkWord()} ref={answer} placeholder="Ваш ответ"/>
-                <p>Правильно {testStatus.correct} из {words.length}</p>
-                <button onClick={() => nextQuestion()}>Дальше</button>
+                <p>Правильно {testStatus.correct} из {words.length}</p> */}
+                <p style={{fontSize : "8px"}}>{JSON.stringify(words)}</p>
+                {/* <button onClick={() => nextQuestion()}>Дальше</button> */}
             </div>)
         } 
         return null;
